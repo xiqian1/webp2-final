@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <title>BlackJack</title>
+    <style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        background-image: url("table.jpg");
+        background-repeat: no-repeat;
+        background-size:cover;
+        overflow: hidden;
+        font-family: 'Alegreya Sans SC', sans-serif;
+        font-size: 20px;
+    }
+    .dealerboard{
+        user-select: none;
+    }
+    .top-mid{
+        height: 200px;
+        align-items: center;
+    }
+    .mid-mid{
+        height: 125px;
+    }
+    .right-side{
+        margin-left: 60%;
+    }
+    .message{
+        transform: translateY(50%);
+        padding: 5px 0;
+        font-family: Courier, 'Courier New', monospace;
+        user-select: none;
+    }
+    .bot-mid{
+        height: 225px;
+        align-items: center;
+    }
+
+    .scoreboard{
+        display: inline-block;
+        user-select: none;
+    }
+    .money{
+        display: inline-block;
+        user-select: none;
+    }
+    .bet{
+        display: inline-block;
+        user-select: none;
+    }
+
+    .bot{
+        height: 30px;
+    }
+
+    .getcard{
+        margin: 10%;
+        background-color:#84f14e;
+        display:inline-block;
+        padding:0.3em 1.4em;
+        margin:0 0.1em 0.1em 0;
+        border:0.16em solid rgba(255,255,255,0);
+        border-radius:2em;
+        font-family:'Roboto',sans-serif;
+        color:black;
+        text-align:center;
+        transition: all 0.2s;
+        user-select: none;
+    }
+
+    @keyframes slide {
+        100% { left: 0; }
+    }
+
+    .getcard:hover{
+        border-color: black;
+    }
+
+    .hold{
+        background-color:#f14e4e;
+        display:inline-block;
+        padding:0.3em 1.4em;
+        margin:0 0.1em 0.1em 0;
+        border:0.16em solid rgba(255,255,255,0);
+        border-radius:2em;
+        font-family:'Roboto',sans-serif;
+        color:black;
+        text-align:center;
+        transition: all 0.2s;
+        user-select: none;
+    }
+    .hold:hover{
+        border-color: black;
+    }
+
+    .bot .bet10{
+        margin-left: 40px;
+    }
+    .bet10{
+        margin: 10%;
+        background-color:#0066cc;
+        display:inline-block;
+        padding:0.3em 1.4em;
+        margin:0 0.1em 0.1em 0;
+        border:0.16em solid rgba(255,255,255,0);
+        border-radius:2em;
+        font-family:'Roboto',sans-serif;
+        color:black;
+        text-align:center;
+        transition: all 0.2s;
+        user-select: none;
+    }
+
+    .bet40{
+        margin: 10%;
+        background-color:#00cc00;
+        display:inline-block;
+        padding:0.3em 1.4em;
+        margin:0 0.1em 0.1em 0;
+        border:0.16em solid rgba(255,255,255,0);
+        border-radius:2em;
+        font-family:'Roboto',sans-serif;
+        color:black;
+        text-align:center;
+        transition: all 0.2s;
+        user-select: none;
+    }
+
+    .allin{
+        margin: 10%;
+        background-color:#666633;
+        display:inline-block;
+        padding:0.3em 1.4em;
+        margin:0 0.1em 0.1em 0;
+        border:0.16em solid rgba(255,255,255,0);
+        border-radius:2em;
+        font-family:'Roboto',sans-serif;
+        color:black;
+        text-align:center;
+        transition: all 0.2s;
+        user-select: none;
+    }
+    .bet10:hover{
+        border-color: black;
+    }
+    .bet40:hover{
+        border-color: black;
+    }
+    .allin:hover{
+        border-color: black;
+    }
+
+    .playagain{
+        visibility: hidden;
+        background-color:#19B4F4;
+        display:inline-block;
+        padding:0.3em 1.4em;
+        margin:0 0.1em 0.1em 0;
+        border:0.16em solid rgba(255,255,255,0);
+        border-radius:2em;
+        font-family:'Roboto',sans-serif;
+        color:black;
+        text-align:center;
+        transition: all 0.2s;
+        user-select: none;
+    }
+
+    .playagain:hover{
+        border-color: black;
+    }
+    .rules{
+        float: left;
+        font-size: 16px;
+        color: white;
+        position: absolute;
+        font-family: 'Roboto', sans-serif;
+        border: 2px solid black;
+        padding: 10px;
+        user-select: none;
+    }
+    .right-side{
+        user-select: none;
+    }
+    </style>
+</head>
+<body>
+    <!-- <img id="pic" src="#" alt="" /> -->
+    <p class="dealerboard">Dealer's Hand: &nbsp;<label class="dealerkeep">0</label></p>
+    <div class="top-mid">
+        <div class="card2"></div>
+    </div>
+    <div class="mid-mid">
+        <p class="rules">&nbsp;&nbsp;&nbsp;&nbsp;Rules:
+            <br>-BlackJack uses the standard 52-card pack.<br> 
+            The six-deck game (312 cards) is the most popular.<br><br>
+            -Player attempts to beat the dealer by getting a<br>
+            count as close to 21 as possible, without going over 21.<br><br>
+            -It is up to the player if an ace is worth 1 or 11.<br>
+            Face cards are 10 and any other card is its pip value.
+        </p>
+        <h2 class="message">Welcome to BlackJack!</h2>
+        <button class="playagain">Play Again</button>
+    </div>
+    <div class="right-side">
+        <iframe name="votar" style="display:none;"></iframe>
+        <form action='connect.php' method="post" target="votar" onsubmit="this.submit(); this.reset(); return false;">
+            <label for="Deposit">Deposit Amount:</label>
+            <input type='number' name='deposit' id="deposit" autocomplete="off" required>
+            <input type='submit' name='depositbtn' id="depositbtn" value="Deposit">
+        </form>
+    </div>
+    <div class="bot-mid">
+        <div class="card"></div>
+    </div>
+    </div>
+    <div class="bot">
+        <button class="getcard">Hit</button>
+        <button class="hold">Hold</button>
+        <button class="bet10">Bet 10</button>
+        <button class="bet40">Bet 40</button>
+        <button class="allin">All In</button>
+    </div>
+    <p class="scoreboard">Your Hand: &nbsp;<label class="scorekeep">0</label>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <p class="money">Your Money: &nbsp;<label class="moneykeep">0</label>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <p class="bet">Your Bet: &nbsp;<label class="betkeep">0</label></p>
+    <!-- <script src="script.js"></script> -->
+</body>
+<script>
+    const getcard = document.querySelector(".getcard");
+    const gethold = document.querySelector(".hold");
+    const getplay = document.querySelector(".playagain");
+    const depositbtn = document.getElementById("depositbtn");
+    const bet10 = document.querySelector(".bet10");
+    const bet40 = document.querySelector(".bet40");
+    const allin = document.querySelector(".allin");
+
+    let moneykeep=document.querySelector(".moneykeep");
+    depositbtn.onclick=transfermoney;
+    let moneycount=0;
+    function transfermoney(){
+        let deposit=document.getElementById("deposit").value;
+        moneycount=parseInt(moneycount)+parseInt(deposit);
+        moneykeep.innerHTML=moneycount;
+    }
+
+    fetch("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
+        .then((response) => {
+            return response.json();
+        })
+        .then((cardjson) => {
+            console.log(cardjson);
+            deck_id=cardjson.deck_id;
+        })
+        .catch((err) => {
+            // handle errors
+        });
+
+    getcard.onclick=draw;
+    gethold.onclick=holdconditions;
+    getplay.onclick=shuffle;
+    bet10.onclick=betten;
+    bet40.onclick=betfour;
+    allin.onclick=betall;
+
+    let message = document.querySelector(".message");
+    let hold = 0;
+
+    let betkeep = document.querySelector(".betkeep");
+    let betheld=0;
+    let betscore=0;
+    
+    function betten(){
+        if(moneycount>=10){
+            betscore=0;
+            betscore=betscore+10;
+            betheld=betheld+betscore;
+            betkeep.innerHTML=betheld;
+            moneycount=moneycount-10;
+            moneykeep.innerHTML=moneycount;
+        }else{
+            alert("Not enough credit!");
+        }
+    }
+    function betfour(){
+        if(moneycount>=40){
+            betscore=0;
+            betscore=betscore+40;
+            betheld=betheld+betscore;
+            betkeep.innerHTML=betheld;
+            moneycount=moneycount-40;
+            moneykeep.innerHTML=moneycount;
+        }else{
+            alert("Not enough credit!");
+        }
+    }
+    function betall(){
+        if(moneycount>0){
+            betscore=0;
+            betscore=betscore+moneycount;
+            betheld=betheld+betscore;
+            betkeep.innerHTML=betheld;
+            moneycount=moneycount-moneycount;
+            moneykeep.innerHTML=moneycount;
+        }else{
+            alert("Not enough credit!");
+        }
+    }
+
+
+    function draw(){
+        if(betheld>0){
+            bet10.style.visibility="hidden";
+            bet40.style.visibility="hidden";
+            allin.style.visibility="hidden";
+            if(hold===0){
+                fetch(`https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=1`)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((drawjson) => {
+                        console.log(drawjson);
+                        let cards=drawjson.cards[0];
+                        createImage(cards);
+                        scoreline(cards);
+                        message.innerHTML="";
+                        // pic.src=cards.image;
+                    })
+                    .catch((err) => {
+                        // handle errors
+                    });
+
+            }
+                fetch(`https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=1`)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((drawjson) => {
+                    console.log(drawjson);
+                    let cards=drawjson.cards[0];
+                    if(scoreholder2<=15 && hold===0){
+                        createImage2(cards);
+                        scoreline2(cards);
+                    }
+                    
+                    if(scoreholder2<=scoreholder && scoreholder2<16 && hold===1){
+                        createImage2(cards);
+                        scoreline2(cards);
+                    }
+                    if(scoreholder2>scoreholder && scoreholder2<=21 && hold===1){
+                        afterhold();
+                    }
+                    if(scoreholder2>=16 && hold===1){
+                        afterhold();
+                    }
+
+                    if(scoreholder2>=16 && hold===0){
+                        message.innerHTML="Dealer Holds";
+                    }
+                    conditions();
+
+                    // pic.src=cards.image;
+                })
+                .catch((err) => {
+                    // handle errors
+                });
+        }else{
+            alert("You must bet something!");
+        }
+    }
+    
+    let card=document.querySelector(".card");
+    function createImage(data){
+        let nextcard=document.createElement("img");
+        nextcard.setAttribute("src",data.image);
+        nextcard.setAttribute("draggable",false);
+        nextcard.style.height="200px";
+        card.appendChild(nextcard);
+        card.style.userSelect="none";
+    }
+
+    let card2=document.querySelector(".card2");
+    function createImage2(data){
+        let nextcard=document.createElement("img");
+        nextcard.setAttribute("src",data.image);
+        nextcard.setAttribute("draggable",false);
+        nextcard.style.height="200px";
+        card2.appendChild(nextcard);
+        card2.style.userSelect="none";
+    }
+
+    let score=document.querySelector(".scorekeep");
+    let scoreholder=0;
+    let acecount=0;
+    function scoreline(data){
+        if(data.value==="KING"||data.value==="QUEEN"||data.value==="JACK"){
+            scoreholder=scoreholder+10;
+            score.innerHTML=scoreholder;
+        }else if(data.value==="ACE"){
+            acecount=acecount+1;
+            if(scoreholder<=10){
+                scoreholder=scoreholder+11;
+                score.innerHTML=scoreholder;
+            }
+            else{
+                scoreholder=scoreholder+1;
+                score.innerHTML=scoreholder;
+                acecount=acecount-1;
+            }
+        }else{
+            scoreholder=scoreholder+parseFloat(data.value);
+            score.innerHTML=scoreholder;
+        }
+        if(scoreholder>21 && acecount>0){
+            scoreholder=scoreholder-10;
+            score.innerHTML=scoreholder;
+            acecount=acecount-1;
+        }
+    }
+
+    let score2=document.querySelector(".dealerkeep");
+    let scoreholder2=0;
+    let acecount2=0;
+    function scoreline2(data){
+        if(data.value==="KING"||data.value==="QUEEN"||data.value==="JACK"){
+            scoreholder2=scoreholder2+10;
+            score2.innerHTML=scoreholder2;
+        }else if(data.value==="ACE"){
+            acecount2=acecount2+1;
+            if(scoreholder2<=10){
+                scoreholder2=scoreholder2+11;
+                score2.innerHTML=scoreholder2;
+            }
+            else{
+                scoreholder2=scoreholder2+1;
+                score2.innerHTML=scoreholder2;
+                acecount2=acecount2-1;
+            }
+        }else{
+            scoreholder2=scoreholder2+parseFloat(data.value);
+            score2.innerHTML=scoreholder2;
+        }
+        if(scoreholder2>21 && acecount2>0){
+            scoreholder2=scoreholder2-10;
+            score2.innerHTML=scoreholder2;
+            acecount2=acecount2-1;
+        }
+    }
+
+    function conditions(){
+        if(scoreholder2>21 && scoreholder<=21){
+            message.innerHTML="You Win!";
+            getcard.style.visibility="hidden";
+            gethold.style.visibility="hidden";
+            getplay.style.visibility="visible";
+            moneycount=moneycount+(betheld*2);
+            moneykeep.innerHTML=moneycount;
+            betheld=0;
+            betkeep.innerHTML=betheld;
+        }
+        else if(scoreholder>21 && scoreholder2<=21){
+            message.innerHTML="You Lose!";
+            getcard.style.visibility="hidden";
+            gethold.style.visibility="hidden";
+            getplay.style.visibility="visible";
+            betheld=0;
+            betkeep.innerHTML=betheld;
+        }
+        else if((scoreholder>21 && scoreholder2>21)||(scoreholder===21 && scoreholder2===21)){
+            message.innerHTML="Tie";
+            getcard.style.visibility="hidden";
+            gethold.style.visibility="hidden";
+            getplay.style.visibility="visible";
+            moneycount=moneycount+betheld;
+            moneykeep.innerHTML=moneycount;
+            betheld=0;
+            betkeep.innerHTML=betheld;
+        }
+        else if(scoreholder===21 && scoreholder2!=21){
+            message.innerHTML="You Win!";
+            getcard.style.visibility="hidden";
+            gethold.style.visibility="hidden";
+            getplay.style.visibility="visible";
+            moneycount=moneycount+(betheld*2);
+            moneykeep.innerHTML=moneycount;
+            betheld=0;
+            betkeep.innerHTML=betheld;
+        }
+        else if(scoreholder2===21 && scoreholder!=21){
+            message.innerHTML="You Lose!";
+            getcard.style.visibility="hidden";
+            gethold.style.visibility="hidden";
+            getplay.style.visibility="visible";
+            betheld=0;
+            betkeep.innerHTML=betheld;
+        }
+    }
+
+    function holdconditions(){
+        if(scoreholder!=0){
+            hold=1;
+            for(let i=0;i<5;i=i+1){
+                if(scoreholder2<16){
+                    draw();
+                }else{
+                    afterhold();
+                }
+            }
+        }
+    }
+
+    function afterhold(){
+        if(scoreholder===scoreholder2){
+            message.innerHTML="Tie";
+            getcard.style.visibility="hidden";
+            gethold.style.visibility="hidden";
+            getplay.style.visibility="visible";
+            moneycount=moneycount+betheld;
+            moneykeep.innerHTML=moneycount;
+            betheld=0;
+            betkeep.innerHTML=betheld;
+        }
+        else if(scoreholder>scoreholder2){
+            message.innerHTML="You Win!";
+            getcard.style.visibility="hidden";
+            gethold.style.visibility="hidden";
+            getplay.style.visibility="visible";
+            moneycount=moneycount+(betheld*2);
+            moneykeep.innerHTML=moneycount;
+            betheld=0;
+            betkeep.innerHTML=betheld;
+        }
+        else if(scoreholder<scoreholder2){
+            message.innerHTML="You Lose!";
+            getcard.style.visibility="hidden";
+            gethold.style.visibility="hidden";
+            getplay.style.visibility="visible";
+            betheld=0;
+            betkeep.innerHTML=betheld;
+        }
+    }
+
+    function shuffle(){
+        fetch(`https://deckofcardsapi.com/api/deck/${deck_id}/shuffle/`)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((drawjson) => {
+                    console.log(drawjson);
+                    card.innerHTML="";
+                    card2.innerHTML="";
+                    message.innerHTML="";
+                    getcard.style.visibility="visible";
+                    gethold.style.visibility="visible";
+                    getplay.style.visibility="hidden";
+                    scoreholder=0;
+                    scoreholder2=0;
+                    score.innerHTML=scoreholder;
+                    score2.innerHTML=scoreholder2;
+                    hold=0;
+                    acecount=0;
+                    acecount2=0;
+                    bet10.style.visibility="visible";
+                    bet40.style.visibility="visible";
+                    allin.style.visibility="visible";
+                })
+                .catch((err) => {
+                    // handle errors
+                });
+    }
+</script>
+</html>
